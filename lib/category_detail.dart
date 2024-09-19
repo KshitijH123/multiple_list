@@ -24,32 +24,21 @@ class CategoryScreen extends StatelessWidget {
             separatorBuilder: (context, index) => const Divider(),
             itemBuilder: (context, index) {
               final cart = cartController.carts[index];
-              return Card(
-                elevation: 4.0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+              return ListTile(
+                title: Text(
+                  'Cart ID: ${cart.id}',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18.0,
+                  ),
                 ),
-                child: ListTile(
-                  contentPadding: const EdgeInsets.all(16.0),
-                  title: Text(
-                    'Cart ID: ${cart.id}',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.0,
-                    ),
+                subtitle: Text(
+                  'Total: \$${cart.total}\nProducts: ${cart.products.map((p) => 'ID: ${p.id}, Qty: ${p.quantity}').join(', ')}',
+                  style: TextStyle(
+                    color: Colors.grey[600],
                   ),
-                  subtitle: Text(
-                    'Total: \$${cart.total}\nProducts: ${cart.products.map((p) => 'ID: ${p.id}, Qty: ${p.quantity}').join(', ')}',
-                    style: TextStyle(
-                      color: Colors.grey[600],
-                    ),
-                  ),
-                  trailing: Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.deepPurple,
-                  ),
-                  onTap: () {},
                 ),
+                onTap: () {},
               );
             },
           );
