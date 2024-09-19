@@ -1,27 +1,31 @@
-import 'package:get/get_rx/get_rx.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:multiple_list/model/get_api_call_model.dart';
-import 'package:multiple_list/model/get_api_call_services.dart';
+import 'dart:convert';
 
-class CategoryController extends GetxController {
-  var categories = <CategoryModel>[].obs;
+class CartController extends GetxController {
+  var carts = <Cart>[].obs;
   var isLoading = true.obs;
 
   @override
   void onInit() {
-    fetchCategories();
+    fetchCarts();
     super.onInit();
   }
 
-  void fetchCategories() async {
+  Future<void> fetchCarts() async {
     try {
       isLoading(true);
-      var categoryList = await CategoryService().fetchCategories();
-      if (categoryList.isNotEmpty) {
-        categories.addAll(categoryList);
+      final response = await http.get(Uri.parse('https://dummyjson.com/carts'));
+
+      if (response.statusCode == 200) {
+        var jsonData = json.decode(response.body);
+        for (var cart in jsonData['carts']) {
+          carts.add(Cart.fromJson(cart));
+        }
+      } else {
+        // Handle error
       }
-    } catch (e) {
-      print('Error: $e');
     } finally {
       isLoading(false);
     }
