@@ -10,7 +10,7 @@ class CategoryScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Cart List'),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Colors.lightBlue[200],
       ),
       body: Obx(() {
         if (cartController.isLoading.value) {
@@ -27,7 +27,8 @@ class CategoryScreen extends StatelessWidget {
               return ListTile(
                 title: Text(
                   'Cart ID: ${cart.id}',
-                  style: TextStyle(
+                  style: const TextStyle(
+                    color: Color.fromARGB(255, 133, 112, 226),
                     fontWeight: FontWeight.bold,
                     fontSize: 18.0,
                   ),
@@ -35,7 +36,7 @@ class CategoryScreen extends StatelessWidget {
                 subtitle: Text(
                   'Total: \$${cart.total}\nProducts: ${cart.products.map((p) => 'ID: ${p.id}, Qty: ${p.quantity}').join(', ')}',
                   style: TextStyle(
-                    color: Colors.grey[600],
+                    color: Colors.grey[800],
                   ),
                 ),
                 onTap: () {},
