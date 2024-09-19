@@ -1,32 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/get_instance.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-
-import 'model/get_api_call_controller.dart';
+import 'package:get/get.dart';
+import 'package:multiple_list/model/get_api_call_controller.dart';
 
 class CategoryScreen extends StatelessWidget {
-  final CategoryController categoryController = Get.put(CategoryController());
+  final CartController cartController = Get.put(CartController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Category List'),
+        title: const Text('Cart List'),
         backgroundColor: Colors.deepPurple,
       ),
       body: Obx(() {
-        if (categoryController.isLoading.value) {
+        if (cartController.isLoading.value) {
           return const Center(child: CircularProgressIndicator());
-        } else if (categoryController.categories.isEmpty) {
-          return const Center(child: Text('No categories found.'));
+        } else if (cartController.carts.isEmpty) {
+          return const Center(child: Text('No carts found.'));
         } else {
           return ListView.separated(
             padding: const EdgeInsets.all(8.0),
-            itemCount: categoryController.categories.length,
+            itemCount: cartController.carts.length,
             separatorBuilder: (context, index) => const Divider(),
             itemBuilder: (context, index) {
-              final category = categoryController.categories[index];
+              final cart = cartController.carts[index];
               return Card(
                 elevation: 4.0,
                 shape: RoundedRectangleBorder(
@@ -34,20 +31,15 @@ class CategoryScreen extends StatelessWidget {
                 ),
                 child: ListTile(
                   contentPadding: const EdgeInsets.all(16.0),
-                  leading: Icon(
-                    Icons.category,
-                    color: Colors.purple,
-                    size: 40.0,
-                  ),
                   title: Text(
-                    category.name,
+                    'Cart ID: ${cart.id}',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18.0,
                     ),
                   ),
                   subtitle: Text(
-                    'Description or additional info here',
+                    'Total: \$${cart.total}\nProducts: ${cart.products.map((p) => 'ID: ${p.id}, Qty: ${p.quantity}').join(', ')}',
                     style: TextStyle(
                       color: Colors.grey[600],
                     ),
